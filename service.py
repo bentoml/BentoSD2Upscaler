@@ -97,12 +97,11 @@ class SD2Service:
         if upscale:
             low_res_img = image
             low_res_img.format = "png"
-            res = self.upscaler_service.upscale(
+            image = self.upscaler_service.upscale(
                 image=low_res_img,
                 prompt=prompt,
                 negative_prompt=negative_prompt,
             )
-            image = res[0][0]
         return image
 
     # @bentoml.api
