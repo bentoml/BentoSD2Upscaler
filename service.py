@@ -19,7 +19,7 @@ sample_txt2img_input = dict(
 
 @bentoml.service(
     resources={
-        "GPU": 1,
+        "gpu": 1,
         "memory": "16Gi",
     },
     traffic={"timeout": 300},
@@ -50,7 +50,7 @@ class SD2UpscalerService:
 
 @bentoml.service(
     resources={
-        "GPU": 1,
+        "gpu": 1,
         "memory": "16Gi"
     },
     traffic={"timeout": 300},
