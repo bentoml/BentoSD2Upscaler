@@ -10,6 +10,8 @@ This project demonstrates how to build an image generation application with upsc
 ## Install dependencies
 
 ```bash
+git clone https://github.com/bentoml/BentoSD2Upscaler.git
+cd BentoSD2Upscaler
 pip install -r requirements.txt
 ```
 
