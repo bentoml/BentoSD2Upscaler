@@ -60,7 +60,7 @@ class SD2Upscaler:
     },
     traffic={"timeout": 600},
 )
-class SD2:
+class StableDiffusion2:
     upscaler_service: SD2Upscaler = bentoml.depends(SD2Upscaler)
 
     def __init__(self) -> None:

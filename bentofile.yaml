@@ -1,4 +1,4 @@
-service: "service:SD2"
+service: "service:StableDiffusion2"
 labels:
   owner: bentoml-team
   project: gallery
