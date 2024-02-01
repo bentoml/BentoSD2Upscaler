@@ -7,16 +7,7 @@ from PIL.Image import Image
 SD2_MODEL_ID = 'stabilityai/stable-diffusion-2'
 SD2_UPSCALER_MODEL_ID = "stabilityai/stable-diffusion-x4-upscaler"
 
-sample_txt2img_input = dict(
-    prompt="photo a majestic sunrise in the mountains, best quality, 4k",
-    negative_prompt="blurry, low-res, ugly, low quality",
-    height=320,
-    width=320,
-    num_inference_steps=50,
-    guidance_scale=7.5,
-    eta=0.0,
-    upscale=True
-)
+DEFAULT_SIZE = 512
 
 @bentoml.service(
     resources={
@@ -81,10 +72,10 @@ class StableDiffusion2:
     @bentoml.api
     def txt2img(
             self,
-            prompt: str,
+            prompt: str = "photo a majestic sunrise in the mountains, best quality, 4k",
             negative_prompt: t.Optional[str] = None,
-            height: int = 320,
-            width: int = 320,
+            height: int = DEFAULT_SIZE,
+            width: int = DEFAULT_SIZE,
             num_inference_steps: int = 50,
             guidance_scale: float = 7.5,
             upscale: bool = True,
