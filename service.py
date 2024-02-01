@@ -24,9 +24,9 @@ sample_txt2img_input = dict(
         # we can also specify GPU memory requirement:
         # "memory": "16Gi",
     },
-    traffic={"timeout": 300},
+    traffic={"timeout": 600},
 )
-class SD2UpscalerService:
+class SD2Upscaler:
 
     def __init__(self) -> None:
         import torch
@@ -57,10 +57,10 @@ class SD2UpscalerService:
         # we can also specify GPU memory requirement:
         # "memory": "16Gi",
     },
-    traffic={"timeout": 300},
+    traffic={"timeout": 600},
 )
-class SD2Service:
-    upscaler_service: SD2UpscalerService = bentoml.depends(SD2UpscalerService)
+class SD2:
+    upscaler_service: SD2Upscaler = bentoml.depends(SD2Upscaler)
 
     def __init__(self) -> None:
         import torch
