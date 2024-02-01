@@ -1,3 +1,4 @@
+from __future__ import annotations
 import typing as t
 
 import bentoml
@@ -40,7 +41,7 @@ class SD2Upscaler:
         self.pipe.to(self.device)
 
     @bentoml.api
-    def upscale(self, image: Image, prompt: str, negative_prompt: str | None = None) -> Image:
+    def upscale(self, image: Image, prompt: str, negative_prompt: t.Optional[str] = None) -> Image:
         image = self.pipe(
             image=image,
             prompt=prompt,
@@ -81,7 +82,7 @@ class SD2:
     def txt2img(
             self,
             prompt: str,
-            negative_prompt: str | None = None,
+            negative_prompt: t.Optional[str] = None,
             height: int = 320,
             width: int = 320,
             num_inference_steps: int = 50,
