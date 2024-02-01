@@ -13,8 +13,6 @@ DEFAULT_SIZE = 512
     resources={
         "gpu": 1,
         "gpu_type": "nvidia-l4",
-        # we can also specify GPU memory requirement:
-        # "memory": "16Gi",
     },
     traffic={"timeout": 600},
 )
@@ -46,8 +44,6 @@ class SD2Upscaler:
     resources={
         "gpu": 1,
         "gpu_type": "nvidia-l4",
-        # we can also specify GPU memory requirement:
-        # "memory": "16Gi",
     },
     traffic={"timeout": 600},
 )
