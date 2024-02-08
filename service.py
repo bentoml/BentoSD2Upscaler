@@ -3,6 +3,8 @@ import typing as t
 
 import bentoml
 from PIL.Image import Image
+from typing_extensions import Annotated
+from annotated_types import Le, Ge
 
 SD2_MODEL_ID = 'stabilityai/stable-diffusion-2'
 SD2_UPSCALER_MODEL_ID = "stabilityai/stable-diffusion-x4-upscaler"
@@ -72,8 +74,8 @@ class StableDiffusion2:
             negative_prompt: t.Optional[str] = None,
             height: int = DEFAULT_SIZE,
             width: int = DEFAULT_SIZE,
-            num_inference_steps: int = 50,
-            guidance_scale: float = 7.5,
+            num_inference_steps: Annotated[int, Ge(1), Le(50)] = 50,
+            guidance_scale: Annotated[float, Ge(0.0), Le(20.)] = 7.5,
             upscale: bool = True,
     ) -> Image:
 
