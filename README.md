@@ -1,13 +1,8 @@
 <div align="center">
-    <h1 align="center">BentoSD2Upscaler</h1>
-    <br>
-    <strong>Create and upscale images with ease and speed<br></strong>
-    <i>Powered by BentoML 🍱</i>
-    <br>
+    <h1 align="center">Serving Stable Diffusion 2 + Upscaler with BentoML</h1>
 </div>
-<br>
 
-This project demonstrates how to build an image generation application with upscaling ability using BentoML, powered by [diffusers](https://github.com/huggingface/diffusers).
+This is a BentoML example project, demonstrating how to build an image generation inference API server using the [SD2 model](https://huggingface.co/stabilityai/stable-diffusion-2) and the [upscaler model](https://huggingface.co/stabilityai/stable-diffusion-x4-upscaler). See [here](https://github.com/bentoml/BentoML?tab=readme-ov-file#%EF%B8%8F-what-you-can-build-with-bentoml) for a full list of BentoML example projects.
 
 ## Prerequisites
 
