@@ -1,4 +1,5 @@
 from __future__ import annotations
+import gc
 import typing as t
 
 import bentoml
@@ -16,7 +17,7 @@ DEFAULT_SIZE = 512
         "gpu": 1,
         "gpu_type": "nvidia-l4",
     },
-    traffic={"timeout": 600},
+    traffic={"timeout": 1200},
 )
 class SD2Upscaler:
 
@@ -33,11 +34,18 @@ class SD2Upscaler:
 
     @bentoml.api
     def upscale(self, image: Image, prompt: str, negative_prompt: t.Optional[str] = None) -> Image:
-        image = self.pipe(
-            image=image,
-            prompt=prompt,
-            negative_prompt=negative_prompt,
-        )[0][0]
+        import torch
+        try:
+            image = self.pipe(
+                image=image,
+                prompt=prompt,
+                negative_prompt=negative_prompt,
+            )[0][0]
+        finally:
+            gc.collect()
+            torch.cuda.empty_cache()
+            torch.cuda.ipc_collect()
+
         image.format = "png"
         return image
 
@@ -47,7 +55,7 @@ class SD2Upscaler:
         "gpu": 1,
         "gpu_type": "nvidia-l4",
     },
-    traffic={"timeout": 600},
+    traffic={"timeout": 1200},
 )
 class StableDiffusion2:
     upscaler_service: SD2Upscaler = bentoml.depends(SD2Upscaler)
@@ -78,24 +86,30 @@ class StableDiffusion2:
             guidance_scale: Annotated[float, Ge(0.0), Le(20.)] = 7.5,
             upscale: bool = True,
     ) -> Image:
+        import torch
 
-        res = self.txt2img_pipe(
-            prompt=prompt,
-            negative_prompt=negative_prompt,
-            height=height,
-            width=width,
-            num_inference_steps=num_inference_steps,
-            guidance_scale=guidance_scale,
-        )
-        image = res[0][0]
-        if upscale:
-            low_res_img = image
-            low_res_img.format = "png"
-            image = self.upscaler_service.upscale(
-                image=low_res_img,
+        try:
+            res = self.txt2img_pipe(
                 prompt=prompt,
                 negative_prompt=negative_prompt,
+                height=height,
+                width=width,
+                num_inference_steps=num_inference_steps,
+                guidance_scale=guidance_scale,
             )
+            image = res[0][0]
+            if upscale:
+                low_res_img = image
+                low_res_img.format = "png"
+                image = self.upscaler_service.upscale(
+                    image=low_res_img,
+                    prompt=prompt,
+                    negative_prompt=negative_prompt,
+                )
+        finally:
+            gc.collect()
+            torch.cuda.empty_cache()
+            torch.cuda.ipc_collect()
         return image
 
     # @bentoml.api
